@@ -4,7 +4,7 @@ function OnBeforeCompilation()
 	 for i = 1, file:mapFunctions():count() do
 	    local fn = file:mapFunctions():item(i)
             local addType
-	    if fn:name():find("Cfunc_VMProtect") then
+	    if fn:name():find("Cfunc_VMProtect") or fn:name():find("VMProtect.Set") or fn:name():find("VMProtect.Get") then
 	       addType = CompilationType.Ultra
 	       file:functions():addByAddress(fn:address(), addType)
 	       print(fn:name() .. " : " .. tostring(fn:address()) .. "  =>  Add To Protection\n")
