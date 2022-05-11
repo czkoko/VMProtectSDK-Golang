@@ -20,11 +20,17 @@ Because of I didn't have Web License Manager, so the correlation function has no
 
 Most functions are Bind.
 ````
-````
-* Test work well on window 11 and Mac OS 12.3.1 (Go 1.18.1)
 
-* But please note that due to the use of some unconventional methods, it may be unsafe.
 ````
+* Test work well on window 11 and Mac OS 12.3.1 (Go 1.18.1),Linux not tested,According to the feedback, it is okay.
+
+* After disassembly viewing the protected program,with memory protection and pack turned off, 
+
+  the marked code are successfully protected by VMProtect, and the encrypted string cannot be searched, 
+  
+  proving that VMProtect and Golang are compatible and the protection is effective.
+````
+
 ````
 Guide：
 
@@ -33,7 +39,7 @@ Guide：
   Please install the c compiler if not.
  
   Mac: xcode-select --install
-  Mac Cross build PE: sudo port install x86_64-w64-mingw32-gcc
+  Mac Cross build PE: sudo port install x86_64-w64-mingw32-gcc or download llvm-mingw
   Windows: download llvm-mingw
   
   Modify the build script,set the CC
