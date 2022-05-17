@@ -10,6 +10,8 @@ and ABI is non-standard(GO x64 ABI: RAX, RBX, RCX, RDI, RSI, R8, R9, R10, R11)
 
 If use CGO, VMP does not recognize Marker and the string need to encrypt,
 
+if not use marker to protect a full function, sometimes it may crash.
+
 After a while of research, I solved the compatibility of some VMProtect with Golang.
 
 Now VMProtect can recognize the address of VMProtectBegin and VMProtectEnd.
@@ -111,5 +113,7 @@ run the script to build
   
 9.If you import other projects from github, please set GO111MODULE=on and modify go.mod,
   replace VMProtect => /Users/YourName/go/src/VMProtect.
+  
+10.Don't use obfuscate tool to build before protect(like garble),VMP cannot recognize.
 ```
 
