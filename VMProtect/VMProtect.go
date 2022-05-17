@@ -3,6 +3,9 @@ package VMProtect
 /*
 #include <stdbool.h>
 #include "VMProtectSDK.h"
+#cgo windows LDFLAGS: -L${SRCDIR}/Lib/Windows -lVMProtectSDK64
+#cgo darwin LDFLAGS: -L${SRCDIR}/Lib/OSX -lVMProtectSDK
+#cgo linux LDFLAGS: -L${SRCDIR}/Lib/Linux -lVMProtectSDK64
 */
 import "C"
 
