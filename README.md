@@ -1,8 +1,8 @@
 # VMProtectSDK-Golang
 ``UnOfficial VMProtectSDK for Golang``
 
-````
-Due to the particularity of Golang, VMP is not compatible with it. 
+```
+    Due to the particularity of Golang, VMP is not compatible with it. 
 
 For example, there is no 0 at the end of the Golang string, 
 
@@ -19,37 +19,80 @@ MarkerName and the string need to encrypt all can be detected(work well on mac a
 Because of I didn't have Web License Manager, so the correlation function has not been implemented.
 
 Most functions are Bind.
-````
+```
 
-````
-* Test work well on window 11 and Mac OS 12.3.1 (Go 1.18.1),Linux not tested,According to the feedback, it is okay.
+### Simple function calls
+```Golang
+package main
 
-* After disassembly viewing the protected program,with memory protection and pack turned off, 
+import (
+	"VMProtect"
+)
 
-  the marked code are successfully protected by VMProtect, and the encrypted string cannot be searched, 
+func main() {
+	VMProtect.BeginUltra("Marker\x00")
+	str := VMProtect.GoString(VMProtect.DecryptStringA("This is a decrypted string\x00"))
+	serial := "SerialNumber\x00"
+
+	println(str)
+	println("HWID: ", VMProtect.GetCurrentHWID())
+	println("IsProtected: ", VMProtect.IsProtected())
+	println("IsDebuggerPresent: ", VMProtect.IsDebuggerPresent(true))
+	println("IsVirtualMachinePresent: ", VMProtect.IsVirtualMachinePresent())
+	println("IsValidImageCRC: ", VMProtect.IsValidImageCRC())
+	println("SetSerialNumber: ", VMProtect.SetSerialNumber(serial))
+	if VMProtect.GetSerialNumberState() == VMProtect.SERIAL_STATE_SUCCESS {
+		println("-- Registered --")
+	}
+	println("User: ", VMProtect.GetUser())
+	println("Email: ", VMProtect.GetEmail())
+	println("ExpireDate: ", VMProtect.GetExpireDate())
+	println("MaxBuildDate: ", VMProtect.GetMaxBuild())
+	VMProtect.End()
+}
+```
+<p align="center">
+  <img src="pic.png" height=500 style="border-radius:15px"/>
+</p>
+
+
+### Test platform
+
+```
+· window 11 ｜ Mac OS 12.4    (Linux not tested,According to the feedback, it is okay)
+
+· Go 1.17 1.18.2
   
-  proving that VMProtect and Golang are compatible and the protection is effective.
-````
+· VMProtect Ultimate v3.4 v3.6
+```
 
-````
-Guide：
+### Protection effect
+```
+    After disassembly viewing the protected program,with memory protection and pack turned off, 
 
-  Copy "VMProtect" and "example" folder to "/Users/YourName/go/src/"
+the marked code are successfully protected by VMProtect, and the encrypted string cannot be searched, 
+  
+proving that VMProtect and Golang are compatible and the protection is effective.
+```
 
-  Please install the c compiler if not.
+### Guide
+```
+Copy "VMProtect" and "example" folder to "/Users/YourName/go/src/"
+
+Please install the c compiler if not.
  
-  Mac: xcode-select --install
-  Mac Cross build PE: sudo port install x86_64-w64-mingw32-gcc or download llvm-mingw
-  Windows: download llvm-mingw
+· Mac: xcode-select --install
+· Mac Cross build PE: sudo port install x86_64-w64-mingw32-gcc or download llvm-mingw
+· Windows: download llvm-mingw
   
-  Modify the build script,set the CC
+Modify the build script,set the CC
   
-  run the script to build
+run the script to build
 
-````
-````
-Tip:
+```
 
+### Tip
+```
 1.\x00 or \000 must be added after string ,like VMProtect.BeginUltra("Marker\x00").
 
 2.Don't use the -gcflags "-N -l" command to compile , Otherwise VMP cannot recognize the Marker.
@@ -64,8 +107,9 @@ Tip:
 
 7.You must use VMProtect.GoString to convert func DecryptString's char to string,not C.GoString.
 
-8.32-bit systems are not supported..
+8.32-bit systems are not supported.
   
 9.If you import other projects from github, please set GO111MODULE=on and modify go.mod,
-   replace VMProtect => /Users/YourName/go/src/VMProtect.
-````
+  replace VMProtect => /Users/YourName/go/src/VMProtect.
+```
+
