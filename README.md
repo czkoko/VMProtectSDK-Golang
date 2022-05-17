@@ -115,5 +115,7 @@ run the script to build
   replace VMProtect => /Users/YourName/go/src/VMProtect.
   
 10.Don't use obfuscate tool to build before protect(like garble),VMP cannot recognize.
+
+11.'VMProtectLicense.ini' just for test sdk before protect,after protected,it's useless and can be deleted.
 ```
 
