@@ -167,6 +167,15 @@ func GetMaxBuild() (date string) {
 	return
 }
 
+func GetRunningTimeLimit() (timelimit int) {
+	var sd C.VMProtectSerialNumberData
+	if C.VMProtectGetSerialNumberData(&sd, C.sizeof_VMProtectSerialNumberData) {
+		timelimit = *(*int)(unsafe.Pointer(&sd.bRunningTime))
+		return timelimit
+	}
+	return
+}
+
 func Begin(MarkerName string) unsafe.Pointer {
 	if runtime.GOOS == "windows" {
 		return vmprotectBegin(&MarkerName)
