@@ -29,6 +29,7 @@ package main
 
 import (
 	"VMProtect"
+	"time"
 )
 
 func main() {
