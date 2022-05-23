@@ -26,7 +26,7 @@ func main() {
 	println("RunningTimeLimit: ", VMProtect.GetRunningTimeLimit())
 	time.Sleep(3 * time.Minute)
 	if VMProtect.GetSerialNumberState() == VMProtect.SERIAL_STATE_FLAG_RUNNING_TIME_OVER {
-		println("-- Runing Time Over, Please Registere --")
+		println("-- Running Time Over, Please Registere --")
 	}
 	VMProtect.End()
 }
