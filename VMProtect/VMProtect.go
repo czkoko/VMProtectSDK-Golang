@@ -26,6 +26,12 @@ const (
 	SERIAL_STATE_FLAG_MAX_BUILD_EXPIRED = 0x00000040
 )
 
+type VMProtectDate struct {
+	wYear  int
+	bMonth int
+	bDay   int
+}
+
 //go:linkname vmprotectBegin VMProtectBegin
 //go:noescape
 func vmprotectBegin(*string) unsafe.Pointer
@@ -143,28 +149,26 @@ func GetEmail() (email string) {
 	return
 }
 
-func GetExpireDate() (date string) {
+func GetExpireDate() (date VMProtectDate) {
 	var sd C.VMProtectSerialNumberData
 	if C.VMProtectGetSerialNumberData(&sd, C.sizeof_VMProtectSerialNumberData) {
-		year := *(*uint16)(unsafe.Pointer(&sd.dtExpire.wYear))
-		month := *(*uint8)(unsafe.Pointer(&sd.dtExpire.bMonth))
-		day := *(*uint8)(unsafe.Pointer(&sd.dtExpire.bDay))
-		date := strconv.Itoa(int(year)) + "-" + strconv.Itoa(int(month)) + "-" + strconv.Itoa(int(day))
+		date.wYear = int(*(*uint16)(unsafe.Pointer(&sd.dtExpire.wYear)))
+		date.bMonth = int(*(*uint8)(unsafe.Pointer(&sd.dtExpire.bMonth)))
+		date.bDay = int(*(*uint8)(unsafe.Pointer(&sd.dtExpire.bDay)))
 		return date
 	}
-	return
+	return date
 }
 
-func GetMaxBuild() (date string) {
+func GetMaxBuildDate() (date VMProtectDate) {
 	var sd C.VMProtectSerialNumberData
 	if C.VMProtectGetSerialNumberData(&sd, C.sizeof_VMProtectSerialNumberData) {
-		year := *(*uint16)(unsafe.Pointer(&sd.dtMaxBuild.wYear))
-		month := *(*uint8)(unsafe.Pointer(&sd.dtMaxBuild.bMonth))
-		day := *(*uint8)(unsafe.Pointer(&sd.dtMaxBuild.bDay))
-		date := strconv.Itoa(int(year)) + "-" + strconv.Itoa(int(month)) + "-" + strconv.Itoa(int(day))
+		date.wYear = int(*(*uint16)(unsafe.Pointer(&sd.dtMaxBuild.wYear)))
+		date.bMonth = int(*(*uint8)(unsafe.Pointer(&sd.dtMaxBuild.bMonth)))
+		date.bDay = int(*(*uint8)(unsafe.Pointer(&sd.dtMaxBuild.bDay)))
 		return date
 	}
-	return
+	return date
 }
 
 func GetRunningTimeLimit() (timelimit int) {
@@ -247,3 +251,24 @@ func IsProtected() bool {
 func IsValidImageCRC() bool {
 	return bool(callbool(C.VMProtectIsValidImageCRC, unsafe.Pointer(nil)))
 }
+
+func (d VMProtectDate) Year() (year int) {
+	year = d.wYear
+	return year
+}
+
+func (d VMProtectDate) Month() (month int) {
+	month = d.bMonth
+	return month
+}
+
+func (d VMProtectDate) Day() (day int) {
+	day = d.bDay
+	return day
+}
+
+func (d VMProtectDate) Date(SplitMark string) (date string) {
+	date = strconv.Itoa(d.wYear) + SplitMark + strconv.Itoa(d.bMonth) + SplitMark + strconv.Itoa(d.bDay)
+	return date
+}
+
