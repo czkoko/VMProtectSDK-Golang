@@ -24,7 +24,8 @@ Most functions are Bind.
 ```
 
 ### Simple function calls
-```Golang
+```Go
+
 package main
 
 import (
@@ -49,8 +50,9 @@ func main() {
 	}
 	println("User: ", VMProtect.GetUser())
 	println("Email: ", VMProtect.GetEmail())
-	println("ExpireDate: ", VMProtect.GetExpireDate())
-	println("MaxBuildDate: ", VMProtect.GetMaxBuild())
+	println("ExpireDate: ", VMProtect.GetExpire().Date("-"))
+	println("ExpireYear(int): ", VMProtect.GetExpire().Year())
+	println("MaxBuildDate: ", VMProtect.GetMaxBuild().Date("/"))
 	println("RunningTimeLimit: ", VMProtect.GetRunningTimeLimit())
 	time.Sleep(3 * time.Minute)
 	if VMProtect.GetSerialNumberState() == VMProtect.SERIAL_STATE_FLAG_RUNNING_TIME_OVER {
