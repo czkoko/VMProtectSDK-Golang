@@ -149,7 +149,7 @@ func GetEmail() (email string) {
 	return
 }
 
-func GetExpireDate() (date VMProtectDate) {
+func GetExpire() (date VMProtectDate) {
 	var sd C.VMProtectSerialNumberData
 	if C.VMProtectGetSerialNumberData(&sd, C.sizeof_VMProtectSerialNumberData) {
 		date.wYear = int(*(*uint16)(unsafe.Pointer(&sd.dtExpire.wYear)))
@@ -160,7 +160,7 @@ func GetExpireDate() (date VMProtectDate) {
 	return date
 }
 
-func GetMaxBuildDate() (date VMProtectDate) {
+func GetMaxBuild() (date VMProtectDate) {
 	var sd C.VMProtectSerialNumberData
 	if C.VMProtectGetSerialNumberData(&sd, C.sizeof_VMProtectSerialNumberData) {
 		date.wYear = int(*(*uint16)(unsafe.Pointer(&sd.dtMaxBuild.wYear)))
